@@ -7,9 +7,13 @@ Enhance your [Jisho.org](https://jisho.org) experience with **example sentences 
 ## 🌸 Features
 
 ✅ Automatically fetches example sentences for each dictionary entry on Jisho.org
+
 ✅ Shows only relevant sentences per entry (no repeats)
+
 ✅ Displays cleanly inline with the existing page theme (dark & light mode compatible)
+
 ✅ Toggle to show more sentences if available
+
 ✅ Minimal design that blends seamlessly with Jisho’s UI
 
 ---
