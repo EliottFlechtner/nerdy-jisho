@@ -6,10 +6,10 @@ Enhance your [Jisho.org](https://jisho.org) experience with **example sentences 
 
 ## 🌸 Features
 
-✅ Automatically fetches example sentences for each dictionary entry on Jisho.org  
-✅ Shows only relevant sentences per entry (no repeats)  
-✅ Displays cleanly inline with the existing page theme (dark & light mode compatible)  
-✅ Toggle to show more sentences if available  
+✅ Automatically fetches example sentences for each dictionary entry on Jisho.org
+✅ Shows only relevant sentences per entry (no repeats)
+✅ Displays cleanly inline with the existing page theme (dark & light mode compatible)
+✅ Toggle to show more sentences if available
 ✅ Minimal design that blends seamlessly with Jisho’s UI
 
 ---
@@ -35,18 +35,16 @@ Example sentences will appear automatically under each matching dictionary entry
 
 ---
 
-## ⚙️ Customize
+## Project structure
 
-We keep it simple for now, but future features could include:
-
-* Favorite / pin sentences
-* Hover to reveal translations
-* Export to Anki
-* Audio playback
-
----
-
-## 🌟 Contributions welcome!
-
-Got an idea to improve this? Open an issue or a pull request.
-Enjoy and 頑張って (ganbatte)!
+```
+nerdy-jisho/
+├── LICENSE
+├── README.md
+├── manifest.json
+├── src/
+│   ├── content.js
+│   └── style.css
+└── assets/
+└── icon.png
+```

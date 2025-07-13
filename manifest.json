@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Nerdy Jisho",
+  "description": "Enhances Jisho.org by automatically fetching and displaying example sentences.",
+  "version": "1.0",
+  "icons": {
+    "48": "assets/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://jisho.org/*"],
+      "js": ["src/content.js"],
+      "css": ["src/style.css"]
+    }
+  ]
+}
