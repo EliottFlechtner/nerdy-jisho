@@ -2,10 +2,6 @@
 
 Enhance your [Jisho.org](https://jisho.org) experience with **example sentences right inside each dictionary entry** — no more opening new tabs just to see how words are used in context!
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Jisho-Enhanced-brightgreen" alt="Badge">
-</p>
-
 ---
 
 ## 🌸 Features
