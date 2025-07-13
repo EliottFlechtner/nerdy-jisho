@@ -1,4 +1,4 @@
-# ✨ Nerdy Jisho
+# 🤓 Nerdy Jisho ☝️
 
 Enhance your [Jisho.org](https://jisho.org) experience with **example sentences right inside each dictionary entry** — no more opening new tabs just to see how words are used in context!
 
