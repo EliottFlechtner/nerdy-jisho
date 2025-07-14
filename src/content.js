@@ -58,34 +58,27 @@
   function extractJapaneseSentenceWithFurigana(ulElement) {
     let sentence = '';
 
+    // Start by adding any text nodes directly under <ul> (before first <li>)
     ulElement.childNodes.forEach(node => {
       if (node.nodeType === Node.TEXT_NODE) {
-        // Plain text directly inside <ul>
-        sentence += node.textContent.trim();
-      } else if (
-          node.nodeType === Node.ELEMENT_NODE &&
-          node.tagName.toLowerCase() === 'li') {
+        sentence += node.textContent;
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'LI') {
         const unlinked = node.querySelector('.unlinked');
         const furigana = node.querySelector('.furigana');
 
-        if (unlinked) {
-          if (furigana && furigana.textContent.trim()) {
-            sentence += `${unlinked.textContent.trim()}(${
-                furigana.textContent.trim()})`;
-          } else {
-            sentence += unlinked.textContent.trim();
-          }
+        if (unlinked && furigana) {
+          const kanji = unlinked.textContent.trim();
+          const furi = furigana.textContent.trim();
+
+          sentence += `<ruby>${kanji}<rt>${furi}</rt></ruby>`;
+        } else if (unlinked) {
+          sentence += unlinked.textContent.trim();
         }
       }
     });
 
-    // Clean up excessive whitespace
-    sentence = sentence.replace(/\s+/g, ' ').trim();
-
-    console.log('Extracted Japanese sentence with furigana:', sentence);
     return sentence;
   }
-
 
   // Create the sentences container element with the sentences inside
   function createSentencesDiv(sentences) {
@@ -93,15 +86,15 @@
 
     const container = document.createElement('div');
     container.className = 'jisho-example-sentences';
-    container.style.marginTop = '50px';  // fallback spacing
+    container.style.marginTop = '50px';
     container.style.display = 'block';
 
-    // Insert a spacer div above sentences for guaranteed vertical spacing
+    // Add a spacer div for visual separation
     const spacer = document.createElement('div');
     spacer.style.height = '20px';
     container.appendChild(spacer);
 
-    // Header
+    // Add header (bold text)
     const header = document.createElement('div');
     header.textContent = '🤓☝️ Example sentences:';
     header.style.fontWeight = 'bold';
@@ -112,17 +105,17 @@
       const p = document.createElement('p');
 
       const jpSpan = document.createElement('span');
-      console.log(jpSpan);
-      jpSpan.className = 'jp';
-      jpSpan.textContent = s.jp;
+      jpSpan.className = 'japanese-sentence';
+      jpSpan.innerHTML = s.jp;  // allows ruby tags for furigana
 
       const br = document.createElement('br');
 
       const enSpan = document.createElement('span');
       enSpan.className = 'en';
 
-      // Remove trailing "— [source]" or similar from the translation
+      // Remove trailing — [source] style
       let cleanTranslation = s.en.replace(/\s*[—].*$/, '');
+
       enSpan.textContent = cleanTranslation;
 
       p.appendChild(jpSpan);

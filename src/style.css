@@ -32,3 +32,9 @@
 .jisho-show-more:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.japanese-sentence ruby rt {
+  font-size: 0.7em;
+  color: #535353;
+}
+
