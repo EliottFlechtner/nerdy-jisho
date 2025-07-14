@@ -6,15 +6,40 @@
 }
 
 .jisho-example-sentences p {
-  margin: 6px 0;
+  margin: 10px 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  .jisho-example-sentences p {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
 }
 
 .jisho-example-sentences .jp {
-  font-weight: bold;
+  font-weight: normal;
+  font-size: 20px;
+  display: block;
 }
 
 .jisho-example-sentences .en {
   opacity: 0.8;
+}
+
+.jisho-example-sentences .highlighted {
+  color: #4ad32f;
+  font-weight: bold;
+}
+
+/* make furigana a bit smaller and soft-colored */
+.japanese-sentence ruby rt {
+  font-size: 0.7em;
+  color: #888;
 }
 
 .jisho-show-more {
@@ -28,13 +53,3 @@
   color: inherit;
   transition: background-color 0.2s;
 }
-
-.jisho-show-more:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.japanese-sentence ruby rt {
-  font-size: 0.7em;
-  color: #888;
-}
-

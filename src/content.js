@@ -21,38 +21,20 @@
     const sentenceDivs = doc.querySelectorAll('.sentence_content');
     const sentences = [];
 
-    for (let i = 0; i < sentenceDivs.length && i < 3; i++) {  // limit to 3
-      // const jp = sentenceDivs[i].querySelector('.japanese_sentence');
+    const maxSentences = 3;
+    for (let i = 0; i < sentenceDivs.length && i < maxSentences; i++) {
       const japaneseList = sentenceDivs[i].querySelector('.japanese_sentence');
       if (!japaneseList) continue;
+
+      // Extract Japanese sentence with furigana (if available) & kanji
       const jp = extractJapaneseSentenceWithFurigana(japaneseList);
       const en = sentenceDivs[i].querySelector('.english_sentence');
       if (jp && en) {
+        // Create a sentence object with both Japanese and English parts
         sentences.push({jp: jp.trim(), en: en.textContent.trim()});
       }
     }
     return sentences;
-  }
-
-  // Extract Japanese sentence from <ul> preserving order of text + kanji
-  function extractJapaneseSentence(ulElement) {
-    let sentence = '';
-
-    ulElement.childNodes.forEach(node => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        // Plain text directly inside <ul>
-        sentence += node.textContent.trim();
-      } else if (
-          node.nodeType === Node.ELEMENT_NODE &&
-          node.tagName.toLowerCase() === 'li') {
-        const unlinkedSpan = node.querySelector('.unlinked');
-        if (unlinkedSpan) {
-          sentence += unlinkedSpan.textContent.trim();
-        }
-      }
-    });
-
-    return sentence;
   }
 
   function extractJapaneseSentenceWithFurigana(ulElement) {
@@ -81,20 +63,18 @@
   }
 
   // Create the sentences container element with the sentences inside
-  function createSentencesDiv(sentences) {
+  function createSentencesDiv(sentences, word) {
     if (!sentences.length) return null;
 
     const container = document.createElement('div');
     container.className = 'jisho-example-sentences';
-    container.style.marginTop = '50px';
-    container.style.display = 'block';
 
-    // Add a spacer div for visual separation
+    // Spacer
     const spacer = document.createElement('div');
     spacer.style.height = '20px';
     container.appendChild(spacer);
 
-    // Add header (bold text)
+    // Header
     const header = document.createElement('div');
     header.textContent = '🤓☝️ Example sentences:';
     header.style.fontWeight = 'bold';
@@ -104,22 +84,27 @@
     sentences.forEach(s => {
       const p = document.createElement('p');
 
+      // Japanese sentence with possible highlight
       const jpSpan = document.createElement('span');
-      jpSpan.className = 'japanese-sentence';
-      jpSpan.innerHTML = s.jp;  // allows ruby tags for furigana
+      jpSpan.className = 'jp japanese-sentence';
 
-      const br = document.createElement('br');
+      if (word) {
+        const escapedWord =
+            word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');  // escape regex
+        const regex = new RegExp(escapedWord, 'g');
+        jpSpan.innerHTML =
+            s.jp.replace(regex, `<span class="highlighted">${word}</span>`);
+      } else {
+        jpSpan.innerHTML = s.jp;
+      }
 
+      // English translation
       const enSpan = document.createElement('span');
       enSpan.className = 'en';
-
-      // Remove trailing — [source] style
-      let cleanTranslation = s.en.replace(/\s*[—].*$/, '');
-
-      enSpan.textContent = cleanTranslation;
+      enSpan.textContent = s.en.replace(/\s*[—–-].*$/, '');
 
       p.appendChild(jpSpan);
-      p.appendChild(br);
+      p.appendChild(document.createElement('br'));
       p.appendChild(enSpan);
 
       container.appendChild(p);
@@ -144,7 +129,7 @@
       const sentences = extractSentences(doc);
 
       if (sentences.length > 0) {
-        const sentencesDiv = createSentencesDiv(sentences);
+        const sentencesDiv = createSentencesDiv(sentences, word);
         if (sentencesDiv) {
           const wrapper = entry.querySelector(
               '.concept_light-wrapper.columns.zero-padding');
