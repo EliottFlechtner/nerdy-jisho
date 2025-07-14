@@ -25,7 +25,7 @@
       // const jp = sentenceDivs[i].querySelector('.japanese_sentence');
       const japaneseList = sentenceDivs[i].querySelector('.japanese_sentence');
       if (!japaneseList) continue;
-      const jp = extractJapaneseSentence(japaneseList);
+      const jp = extractJapaneseSentenceWithFurigana(japaneseList);
       const en = sentenceDivs[i].querySelector('.english_sentence');
       if (jp && en) {
         sentences.push({jp: jp.trim(), en: en.textContent.trim()});
@@ -54,6 +54,38 @@
 
     return sentence;
   }
+
+  function extractJapaneseSentenceWithFurigana(ulElement) {
+    let sentence = '';
+
+    ulElement.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        // Plain text directly inside <ul>
+        sentence += node.textContent.trim();
+      } else if (
+          node.nodeType === Node.ELEMENT_NODE &&
+          node.tagName.toLowerCase() === 'li') {
+        const unlinked = node.querySelector('.unlinked');
+        const furigana = node.querySelector('.furigana');
+
+        if (unlinked) {
+          if (furigana && furigana.textContent.trim()) {
+            sentence += `${unlinked.textContent.trim()}(${
+                furigana.textContent.trim()})`;
+          } else {
+            sentence += unlinked.textContent.trim();
+          }
+        }
+      }
+    });
+
+    // Clean up excessive whitespace
+    sentence = sentence.replace(/\s+/g, ' ').trim();
+
+    console.log('Extracted Japanese sentence with furigana:', sentence);
+    return sentence;
+  }
+
 
   // Create the sentences container element with the sentences inside
   function createSentencesDiv(sentences) {
@@ -89,8 +121,8 @@
       const enSpan = document.createElement('span');
       enSpan.className = 'en';
 
-      // Remove trailing "— Jreibun" or similar from the translation
-      let cleanTranslation = s.en.replace(/\s*—\s*Jreibun.*$/i, '');
+      // Remove trailing "— [source]" or similar from the translation
+      let cleanTranslation = s.en.replace(/\s*[—].*$/, '');
       enSpan.textContent = cleanTranslation;
 
       p.appendChild(jpSpan);
