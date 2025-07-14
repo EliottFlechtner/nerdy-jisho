@@ -56,6 +56,7 @@
       const p = document.createElement('p');
 
       const jpSpan = document.createElement('span');
+      console.log(jpSpan);
       jpSpan.className = 'jp';
       jpSpan.textContent = s.jp;
 
