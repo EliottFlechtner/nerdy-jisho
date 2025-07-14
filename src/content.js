@@ -22,13 +22,37 @@
     const sentences = [];
 
     for (let i = 0; i < sentenceDivs.length && i < 3; i++) {  // limit to 3
-      const jp = sentenceDivs[i].querySelector('.japanese_sentence');
+      // const jp = sentenceDivs[i].querySelector('.japanese_sentence');
+      const japaneseList = sentenceDivs[i].querySelector('.japanese_sentence');
+      if (!japaneseList) continue;
+      const jp = extractJapaneseSentence(japaneseList);
       const en = sentenceDivs[i].querySelector('.english_sentence');
       if (jp && en) {
-        sentences.push({jp: jp.textContent.trim(), en: en.textContent.trim()});
+        sentences.push({jp: jp.trim(), en: en.textContent.trim()});
       }
     }
     return sentences;
+  }
+
+  // Extract Japanese sentence from <ul> preserving order of text + kanji
+  function extractJapaneseSentence(ulElement) {
+    let sentence = '';
+
+    ulElement.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        // Plain text directly inside <ul>
+        sentence += node.textContent.trim();
+      } else if (
+          node.nodeType === Node.ELEMENT_NODE &&
+          node.tagName.toLowerCase() === 'li') {
+        const unlinkedSpan = node.querySelector('.unlinked');
+        if (unlinkedSpan) {
+          sentence += unlinkedSpan.textContent.trim();
+        }
+      }
+    });
+
+    return sentence;
   }
 
   // Create the sentences container element with the sentences inside
@@ -37,7 +61,7 @@
 
     const container = document.createElement('div');
     container.className = 'jisho-example-sentences';
-    container.style.marginTop = '20px';  // fallback spacing
+    container.style.marginTop = '50px';  // fallback spacing
     container.style.display = 'block';
 
     // Insert a spacer div above sentences for guaranteed vertical spacing
