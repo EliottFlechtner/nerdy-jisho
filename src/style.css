@@ -8,9 +8,9 @@
 .jisho-example-sentences p {
   margin: 10px 0;
   padding: 8px 12px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid hsl(0, 0%, 80%); /* clear light gray border */
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: hsl(0, 0%, 95%);  /* soft light gray background */
   color: inherit;
 }
 
@@ -20,6 +20,7 @@
     background-color: rgba(255, 255, 255, 0.05);
   }
 }
+
 
 .jisho-example-sentences .jp {
   font-weight: normal;
@@ -31,25 +32,14 @@
   opacity: 0.8;
 }
 
+/* Highlighted words in sentences */
 .jisho-example-sentences .highlighted {
   color: #4ad32f;
   font-weight: bold;
 }
 
-/* make furigana a bit smaller and soft-colored */
+/* Furigana styling */
 .japanese-sentence ruby rt {
   font-size: 0.7em;
   color: #888;
-}
-
-.jisho-show-more {
-  margin-top: 8px;
-  padding: 6px 12px;
-  font-size: 13px;
-  cursor: pointer;
-  background: none;
-  border: 1px solid currentColor;
-  border-radius: 6px;
-  color: inherit;
-  transition: background-color 0.2s;
 }
